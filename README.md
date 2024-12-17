@@ -14,7 +14,11 @@ docker-compose -f docker/docker-compose.yml up --build
 ```bash
 
 #crear un super usuario. Este usuario es para iniciar sesión en el proyecto y también para los tests.
+#Este comando sirver para correrlo dentro del proyecto
 docker-compose -f docker/docker-compose.yml exec aplz_dev_app python manage.py createsuperuser
+
+#Este comando sirve para dentro de docker
+python manage.py createsuperuser
 
 ```
 
@@ -23,6 +27,9 @@ docker-compose -f docker/docker-compose.yml exec aplz_dev_app python manage.py c
 #agregar los datos a la base de datos.
 # Importante correr con el proyecto iniciado, para que llene la base de datos con los datos en el archivo fixtures/orders.json
 # Estos datos se verán reflejados en el home y el historial
+#Este comando sirver para correrlo dentro del proyecto
 docker-compose -f docker/docker-compose.yml exec aplz_dev_app python manage.py loaddata fixtures/orders.json
 
+#Este comando sirve para dentro de docker
+python manage.py loaddata fixtures/orders.json
 ```
