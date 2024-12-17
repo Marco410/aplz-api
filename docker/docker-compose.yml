@@ -1,0 +1,36 @@
+version: "3.2"
+services:
+  aplz_db:
+    platform: linux/arm64
+    image: mysql
+    command: ["mysqld"]
+    environment:
+      - MYSQL_DATABASE=aplz_db
+      - MYSQL_USER=aplz_user
+      - MYSQL_PASSWORD=Aplz-dev-pass
+      - MYSQL_ROOT_PASSWORD=Aplz-dev-pass
+    ports:
+      - 3306:3306
+    volumes:
+      - aplz_api_mysql_data:/var/lib/mysql
+    networks:
+      - main
+  aplz_dev_app:
+    build:
+      context: ../aplz_api
+      dockerfile: ../docker/django/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    networks:
+      - main
+    volumes:
+      - ../aplz_api:/code
+    ports:
+      - 8001:8001
+    env_file:
+      - ./env/.env.dev
+    depends_on:
+      - aplz_db
+networks:
+  main:
+volumes:
+  aplz_api_mysql_data:
